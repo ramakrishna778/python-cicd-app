@@ -27,7 +27,7 @@ pipeline {
                     $SCANNER_HOME/bin/sonar-scanner \
                     -Dsonar.projectKey=python-cicd-app \
                     -Dsonar.sources=. \
-                    -Dsonar.host.url=http://host.docker.internal:9000
+                    -Dsonar.host.url=http://sonarqube:9000
                     '''
                 }
             }
