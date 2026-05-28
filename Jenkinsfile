@@ -2,6 +2,11 @@ pipeline {
 
     agent any
 
+    environment {
+
+        SCANNER_HOME = tool 'sonar-scanner'
+    }
+
     stages {
 
         stage('Git Checkout') {
@@ -12,11 +17,19 @@ pipeline {
             }
         }
 
-        stage('SonarQube Scan') {
+        stage('SonarQube Analysis') {
 
             steps {
 
-                echo 'Running SonarQube Scan'
+                withSonarQubeEnv('sonarqube') {
+
+                    sh '''
+                    $SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.projectKey=python-cicd-app \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=http://host.docker.internal:9000
+                    '''
+                }
             }
         }
 
